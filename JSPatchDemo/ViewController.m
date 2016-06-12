@@ -8,7 +8,9 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic, strong)  UITableView *tableView;
 
 @end
 
@@ -16,12 +18,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.view.backgroundColor = [UIColor yellowColor];
+    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.backgroundColor = [UIColor yellowColor];
+    
+    [self.view addSubview:_tableView];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 100;
+
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    cell.textLabel.text = [@(indexPath.row) stringValue];
+    
+    return cell;
+
 }
 
 @end
